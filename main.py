@@ -11,7 +11,7 @@
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
-
+import datetime
 import json
 import os
 
@@ -21,7 +21,6 @@ from jsonpath_rw_ext import parse
 
 # for calling extended methods
 import jsonpath_rw_ext as jp
-
 
 CONFIG = json.loads(os.getenv("CONFIG"))
 TOPICS = json.loads(os.getenv("INPUT"))
@@ -47,8 +46,9 @@ def on_message(client, userdata, msg):
     diff = val - val0
     val0 = val
     x = {
-        "pipelineId": get_config_value("pipelineId"),
-        "operatorId": get_config_value("operatorId"),
+        "pipeline_id": get_config_value("pipelineId"),
+        "operator_id": get_config_value("operatorId"),
+        "time": '{}Z'.format(datetime.datetime.utcnow().isoformat()),
         "analytics": {
             "diff": diff
         }
